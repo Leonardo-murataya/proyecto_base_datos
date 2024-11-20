@@ -21,6 +21,3 @@ Este proyecto consiste en una aplicación cliente prototipo que permite realizar
 3. **Inicia el servidor web: Si estás utilizando el servidor integrado de PHP, puedes iniciar el servidor con el siguiente comando:**
    ```bash
    php -S localhost:3000
-
-   
-   
