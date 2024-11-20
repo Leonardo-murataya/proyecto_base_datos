@@ -8,11 +8,11 @@ header('Location: login.php');
 exit;
 }
 
-$selected_db = $_SESSION['db_credentials']['db'];
+$selected_db = $_SESSION['db_info']['db'];
 $selected_table = $_SESSION['table'];
 
 $pdo->exec("USE $selected_db");
-$stmt = $pdo->query("SELECT * FROM $selected_table LIMIT 10");
+$stmt = $pdo->query("SELECT * FROM $selected_table LIMIT 15");
 $rows = $stmt->fetchAll();
 ?>
 
