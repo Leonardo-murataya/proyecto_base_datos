@@ -36,6 +36,6 @@ $tables = $pdo->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);
     </select>
     <input type="submit" value="Seleccionar">
 </form>
-<a href="login.php">Cambiar Base de Datos</a>
+<a href="logout.php">Cambiar Base de Datos</a>
 </body>
 </html>

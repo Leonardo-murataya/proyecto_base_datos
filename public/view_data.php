@@ -8,7 +8,7 @@ header('Location: login.php');
 exit;
 }
 
-$selected_db = $_SESSION['db_credentials']['db'];
+$selected_db = $_SESSION['db_info']['db'];
 $selected_table = $_SESSION['table'];
 
 $pdo->exec("USE $selected_db");
