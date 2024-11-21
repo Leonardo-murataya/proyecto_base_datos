@@ -28,8 +28,23 @@ if ($columns_info) {
     }
 }
 
-$stmt = $pdo->query("SELECT * FROM $selected_table LIMIT 15");
-$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$search_id = $_GET['search_id'] ?? null;
+$page = $_GET['page'] ?? 1;
+$limit = 15;
+$offset = ($page - 1) * $limit;
+
+if ($search_id) {
+    $stmt = $pdo->prepare("SELECT * FROM $selected_table WHERE $auto_increment_column = :id");
+    $stmt->execute(['id' => $search_id]);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    $stmt = $pdo->query("SELECT COUNT(*) FROM $selected_table");
+    $total_rows = $stmt->fetchColumn();
+    $total_pages = ceil($total_rows / $limit);
+
+    $stmt = $pdo->query("SELECT * FROM $selected_table LIMIT $limit OFFSET $offset");
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 ?>
 
 <!DOCTYPE html>
@@ -42,6 +57,15 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
 <h1>Datos de la Tabla: <?php echo htmlspecialchars($selected_table); ?></h1>
 <a href="add_data.php">Agregar Nuevo Registro</a>
+
+<form method="get" action="view_data.php">
+    <label for="search_id">Buscar por ID:</label>
+    <input type="text" id="search_id" name="search_id">
+    <input type="submit" value="Buscar">
+
+    <a href="view_data.php">Recargar Tablas</a>
+</form>
+
 <table border="1">
     <thead>
     <tr>
@@ -65,6 +89,25 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php endforeach; ?>
     </tbody>
 </table>
+
+<?php if (!$search_id): ?>
+    <div class="pagination">
+        <?php if ($page > 1): ?>
+            <a href="?page=1">&laquo; Inicio</a>
+            <a href="?page=<?php echo $page - 1; ?>">&lsaquo; Anterior</a>
+        <?php endif; ?>
+
+        <?php for ($i = max(1, $page - 2); $i <= min($total_pages, $page + 2); $i++): ?>
+            <a href="?page=<?php echo $i; ?>" <?php if ($i == $page) echo 'class="active"'; ?>><?php echo $i; ?></a>
+        <?php endfor; ?>
+
+        <?php if ($page < $total_pages): ?>
+            <a href="?page=<?php echo $page + 1; ?>">Siguiente &rsaquo;</a>
+            <a href="?page=<?php echo $total_pages; ?>">Fin &raquo;</a>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>
+
 <a href="select_db_table.php">Cambiar Tabla</a>
 </body>
 </html>
