@@ -4,16 +4,32 @@ require '../config/database.php';
 
 $pdo = getDatabaseConnection();
 if (!$pdo) {
-header('Location: login.php');
-exit;
+    header('Location: login.php');
+    exit;
 }
 
 $selected_db = $_SESSION['db_info']['db'];
 $selected_table = $_SESSION['table'];
 
 $pdo->exec("USE $selected_db");
+$stmt = $pdo->query("DESCRIBE $selected_table");
+$columns_info = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$auto_increment_column = null;
+if ($columns_info) {
+    foreach ($columns_info as $column_info) {
+        if ($column_info['Extra'] === 'auto_increment') {
+            $auto_increment_column = $column_info['Field'];
+            break;
+        }
+    }
+    if (!$auto_increment_column) {
+        $auto_increment_column = $columns_info[0]['Field'];
+    }
+}
+
 $stmt = $pdo->query("SELECT * FROM $selected_table LIMIT 15");
-$rows = $stmt->fetchAll();
+$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +45,7 @@ $rows = $stmt->fetchAll();
 <table border="1">
     <thead>
     <tr>
-        <?php foreach ($rows[0] as $column => $value): ?>
+        <?php foreach (array_keys($rows[0]) as $column): ?>
             <th><?php echo htmlspecialchars($column); ?></th>
         <?php endforeach; ?>
         <th>Acciones</th>
@@ -38,12 +54,12 @@ $rows = $stmt->fetchAll();
     <tbody>
     <?php foreach ($rows as $row): ?>
         <tr>
-            <?php foreach ($row as $value): ?>
+            <?php foreach ($row as $column => $value): ?>
                 <td><?php echo htmlspecialchars($value); ?></td>
             <?php endforeach; ?>
             <td>
-                <a href="edit_data.php?id=<?php echo $row['id']; ?>">Editar</a>
-                <a href="delete_data.php?id=<?php echo $row['id']; ?>">Eliminar</a>
+                <a href="edit_data.php?id=<?php echo $row[$auto_increment_column]; ?>">Editar</a>
+                <a href="delete_data.php?id=<?php echo $row[$auto_increment_column]; ?>">Eliminar</a>
             </td>
         </tr>
     <?php endforeach; ?>
