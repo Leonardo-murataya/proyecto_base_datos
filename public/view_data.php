@@ -30,7 +30,7 @@ if ($columns_info) {
 
 $search_id = $_GET['search_id'] ?? null;
 $page = $_GET['page'] ?? 1;
-$limit = 15;
+$limit = 25;
 $offset = ($page - 1) * $limit;
 
 if ($search_id) {
@@ -45,6 +45,8 @@ if ($search_id) {
     $stmt = $pdo->query("SELECT * FROM $selected_table LIMIT $limit OFFSET $offset");
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+$message = $_GET['message'] ?? null;
 ?>
 
 <!DOCTYPE html>
@@ -58,12 +60,12 @@ if ($search_id) {
 <h1>Datos de la Tabla: <?php echo htmlspecialchars($selected_table); ?></h1>
 <a href="add_data.php">Agregar Nuevo Registro</a>
 
+<div id="message" style="display: none; color: red;"></div>
+
 <form method="get" action="view_data.php">
     <label for="search_id">Buscar por ID:</label>
     <input type="text" id="search_id" name="search_id">
     <input type="submit" value="Buscar">
-
-    <a href="view_data.php">Recargar Tablas</a>
 </form>
 
 <table border="1">
@@ -92,6 +94,7 @@ if ($search_id) {
 
 <?php if (!$search_id): ?>
     <div class="pagination">
+        <p>Paginas de registros</p>
         <?php if ($page > 1): ?>
             <a href="?page=1">&laquo; Inicio</a>
             <a href="?page=<?php echo $page - 1; ?>">&lsaquo; Anterior</a>
@@ -109,5 +112,6 @@ if ($search_id) {
 <?php endif; ?>
 
 <a href="select_db_table.php">Cambiar Tabla</a>
+<script src="../assets/js/app.js"></script>
 </body>
 </html>
