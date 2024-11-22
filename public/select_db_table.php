@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     exit;
 }
 
-$selected_db = $_SESSION['db_credentials']['db'];
+$selected_db = $_SESSION['db_info']['db'];
 $tables = $pdo->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);
 ?>
 
@@ -31,7 +31,7 @@ $tables = $pdo->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);
     <label for="table">Tabla:</label>
     <select id="table" name="table">
         <?php foreach ($tables as $table): ?>
-            <option value="<?php echo $table; ?>"><?php echo $table; ?></option>
+            <option value="<?php echo htmlspecialchars($table); ?>"><?php echo htmlspecialchars($table); ?></option>
         <?php endforeach; ?>
     </select>
     <input type="submit" value="Seleccionar">
