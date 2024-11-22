@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../config/database.php';
+require '../config/Database.php';
 
 $pdo = getDatabaseConnection();
 if (!$pdo) {
@@ -59,8 +59,6 @@ $message = $_GET['message'] ?? null;
 <body>
 <h1>Datos de la Tabla: <?php echo htmlspecialchars($selected_table); ?></h1>
 <a href="add_data.php">Agregar Nuevo Registro</a>
-
-<div id="message" style="display: none; color: red;"></div>
 
 <form method="get" action="view_data.php">
     <label for="search_id">Buscar por ID:</label>

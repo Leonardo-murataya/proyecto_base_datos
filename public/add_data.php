@@ -28,7 +28,7 @@ if ($selected_table) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data = [];
     foreach ($columns as $column) {
-        if (isset($_POST[$column])) {
+        if (isset($_POST[$column]) && $column !== $auto_increment_column) {
             $data[$column] = $_POST[$column];
         }
     }

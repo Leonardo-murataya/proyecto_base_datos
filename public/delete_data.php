@@ -31,27 +31,14 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
     if ($selected_table && $auto_increment_column) {
-        try {
-            $stmt = $pdo->prepare("DELETE FROM $selected_table WHERE $auto_increment_column = :id");
-            $stmt->execute(['id' => $id]);
 
-            header('Location: view_data.php?message=eliminado');
-            exit;
-        } catch (PDOException $e) {
-            if ($e->getCode() == 23000) {
-                header('Location: view_data.php?message=referenciado');
-                exit;
-            } else {
-                header('Location: view_data.php?message=error');
-                exit;
-            }
-        }
-    } else {
-        header('Location: view_data.php?message=error');
+        $stmt = $pdo->prepare("DELETE FROM $selected_table WHERE $auto_increment_column = :id");
+        $stmt->execute(['id' => $id]);
+
+        header('Location: view_data.php');
         exit;
+
     }
-} else {
-    header('Location: view_data.php?message=error');
-    exit;
 }
+
 ?>
