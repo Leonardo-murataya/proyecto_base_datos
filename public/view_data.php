@@ -47,6 +47,23 @@ if ($search_id) {
 }
 
 $message = $_GET['message'] ?? null;
+
+// Procesar consulta personalizada
+$custom_query = $_POST['custom_query'] ?? null;
+$custom_query_result = [];
+if ($custom_query) {
+    try {
+        // Validar que la consulta sea un SELECT
+        if (stripos($custom_query, 'SELECT') === 0) {
+            $stmt = $pdo->query($custom_query);
+            $custom_query_result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            $message = 'Solo se permiten consultas SELECT.';
+        }
+    } catch (PDOException $e) {
+        $message = 'Error en la consulta: ' . $e->getMessage();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -66,7 +83,47 @@ $message = $_GET['message'] ?? null;
     <input type="submit" value="Buscar">
 </form>
 
-<table border="1">
+<!-- Formulario para consultas personalizadas -->
+<form method="post" action="view_data.php">
+    <label for="custom_query">Consulta SQL:</label>
+    <textarea id="custom_query" name="custom_query" rows="4" cols="50"></textarea>
+    <input type="submit" value="Ejecutar Consulta">
+</form>
+
+<?php if ($message): ?>
+    <p><?php echo htmlspecialchars($message); ?></p>
+<?php endif; ?>
+
+<?php if ($custom_query_result): ?>
+    <h2>Resultados de la Consulta Personalizada</h2>
+    <table border="1">
+        <thead>
+        <tr>
+            <?php foreach (array_keys($custom_query_result[0]) as $column): ?>
+                <th><?php echo htmlspecialchars($column); ?></th>
+            <?php endforeach; ?>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($custom_query_result as $row): ?>
+            <tr>
+                <?php foreach ($row as $column => $value): ?>
+                    <td><?php echo htmlspecialchars($value); ?></td>
+                <?php endforeach; ?>
+
+                <td>
+                    <a href="edit_data.php?id=<?php echo $row[$auto_increment_column]; ?>">Editar</a>
+                    <a href="delete_data.php?id=<?php echo $row[$auto_increment_column]; ?>">Eliminar</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php endif; ?>
+
+<br>
+<h2>Resultados de la Tabla</h2>
+<table>
     <thead>
     <tr>
         <?php foreach (array_keys($rows[0]) as $column): ?>
