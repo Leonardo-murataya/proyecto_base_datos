@@ -110,11 +110,6 @@ if ($custom_query) {
                 <?php foreach ($row as $column => $value): ?>
                     <td><?php echo htmlspecialchars($value); ?></td>
                 <?php endforeach; ?>
-
-                <td>
-                    <a href="edit_data.php?id=<?php echo $row[$auto_increment_column]; ?>">Editar</a>
-                    <a href="delete_data.php?id=<?php echo $row[$auto_increment_column]; ?>">Eliminar</a>
-                </td>
             </tr>
         <?php endforeach; ?>
         </tbody>
