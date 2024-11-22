@@ -48,25 +48,25 @@ if (!$row) {
     <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
-    <header>
-        <h1>Editar Registro en la Tabla: <?php echo htmlspecialchars($selected_table); ?></h1>
-    </header>
-    <main>
-        <form method="post" action="edit_data.php?id=<?php echo $id; ?>">
-            <?php foreach ($row as $column => $value): ?>
-                <div class="form-group">
-                    <label for="<?php echo $column; ?>"><?php echo htmlspecialchars($column); ?>:</label>
-                    <input type="text" id="<?php echo $column; ?>" name="<?php echo $column; ?>" value="<?php echo htmlspecialchars($value); ?>">
-                </div>
-            <?php endforeach; ?>
+<header>
+    <h1>Editar Registro en la Tabla: <?php echo htmlspecialchars($selected_table); ?></h1>
+</header>
+<main>
+    <form method="post" action="edit_data.php?id=<?php echo $id; ?>">
+        <?php foreach ($row as $column => $value): ?>
             <div class="form-group">
-                <input type="submit" value="Actualizar">
+                <label for="<?php echo $column; ?>"><?php echo htmlspecialchars($column); ?>:</label>
+                <input type="text" id="<?php echo $column; ?>" name="<?php echo $column; ?>" value="<?php echo htmlspecialchars($value); ?>">
             </div>
-        </form>
-        <a href="view_data.php">Volver</a>
-    </main>
-    <footer>
-        <p>&copy; <?php echo date('Y'); ?> Tu Compañía</p>
-    </footer>
+        <?php endforeach; ?>
+        <div class="form-group">
+            <input type="submit" value="Actualizar">
+        </div>
+    </form>
+    <a href="view_data.php">Volver</a>
+</main>
+<footer>
+    <p>&copy; <?php echo date('Y'); ?> Tu Compañía</p>
+</footer>
 </body>
 </html>

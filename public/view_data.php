@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../config/Database.php';
+require '../config/database.php';
 
 $pdo = getDatabaseConnection();
 if (!$pdo) {
@@ -11,7 +11,6 @@ if (!$pdo) {
 $selected_db = $_SESSION['db_info']['db'];
 $selected_table = $_SESSION['table'];
 
-$pdo->exec("USE $selected_db");
 $stmt = $pdo->query("DESCRIBE $selected_table");
 $columns_info = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -30,7 +29,7 @@ if ($columns_info) {
 
 $search_id = $_GET['search_id'] ?? null;
 $page = $_GET['page'] ?? 1;
-$limit = 25;
+$limit = 15;
 $offset = ($page - 1) * $limit;
 
 if ($search_id) {
