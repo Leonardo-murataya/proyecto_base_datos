@@ -1,17 +1,36 @@
-body {
+/* Etiquetas */
+html {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
-    background-color: #f4f4f4;
+    background-color: #222;
 }
 
 h1 {
-    color: #333;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: white;
+    margin-top: 20px;
+}
+
+p {
+    color: white;
+    margin-top: 20px;
+}
+
+nav {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 a {
-    color: #0066cc;
+    color: #0A4958;
     text-decoration: none;
+    margin: 1rem;
 }
 
 a:hover {
@@ -21,6 +40,7 @@ a:hover {
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
 }
 
 table, th, td {
@@ -30,4 +50,326 @@ table, th, td {
 th, td {
     padding: 8px;
     text-align: left;
+    color: white;
+}
+
+svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+}
+
+input, select, textarea {
+    background-color: #333;
+    border: 1px solid #555;
+    border-radius: 5px;
+    color: white;
+    padding: 10px;
+    font-size: 1em;
+    width: 100%;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+label {
+    color: white;
+    align-self: center;
+}
+
+small {
+    color: #bbb;
+    font-size: 0.9em;
+    grid-column: 2 / 3;
+    justify-self: start;
+}
+
+/* Clases */
+.divCenter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+
+.space {
+    justify-content: space-around;
+}
+
+.formCenter {
+    padding-top: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    gap: 1rem;
+    max-width: 40rem;
+    margin: 0 auto;
+}
+
+.formTables {
+    padding-top: 1rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin: 0 auto;
+}
+
+@media(min-width: 768px) {
+    .formTables {
+        grid-template-columns: 1fr 3fr 1fr;
+        grid-template-rows: auto auto;
+        max-width: 70rem;
+    }
+
+    .formTables label {
+        text-align: end;
+    }
+}
+
+.buttonTables {
+    margin-left: 30px;
+    background-color: #01B6AD;
+    border: none;
+    border-radius: 7px;
+    height: 40px;
+    color: white;
+    cursor: pointer;
+}
+
+.button {
+    background-color: #01B6AD;
+    border: none;
+    border-radius: 7px;
+    height: 3rem;
+    color: white;
+    cursor: pointer;
+    font-size: large;
+    grid-column: span 2;
+    transition: transform 0.3s ease-in-out;
+}
+
+.button:hover {
+    transform: scale(1.1);
+}
+
+.abajo {
+    padding: 3rem;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination p {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.pagination a {
+    color: #01B6AD;
+    text-decoration: none;
+    margin: 0 5px;
+    padding: 8px 12px;
+    border: 1px solid #01B6AD;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #01B6AD;
+    color: white;
+}
+
+.pagination a.active {
+    background-color: #01B6AD;
+    color: white;
+    pointer-events: none;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+    gap: 15px;
+    padding: 10px;
+}
+
+.grid-item {
+    background-color: #01B6AD;
+    border: 1px solid #333333;
+    color: white;
+    width: 200px;
+    height: 45px;
+    padding: 10px;
+    text-align: center;
+    align-content: center;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in;
+}
+
+.grid-item:hover {
+    background-color: #0A4958;
+    transform: scale(1.1);
+}
+
+.links {
+    margin-top: 20px;
+    background-color: #01B6AD;
+    border: 1px solid #333333;
+    padding: 10px;
+    text-align: center;
+    align-content: center;
+    cursor: pointer;
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+}
+
+.links a {
+    color: white;
+    text-decoration: none;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos para el carrusel de texto */
+.contenedor {
+    width: auto;
+}
+
+.rotating-text {
+    font-family: sans-serif;
+    font-weight: 600;
+    font-size: 36px;
+    color: white;
+    transform: translateX(-80px);
+    margin: 20px 0;
+}
+
+.rotating-text p {
+    display: inline-flex;
+    margin: 0;
+    vertical-align: top;
+}
+
+.rotating-text p .word {
+    position: absolute;
+    display: flex;
+    opacity: 0;
+}
+
+.rotating-text p .word .letter {
+    transform-origin: center center 25px;
+}
+
+.rotating-text p .word .letter.out {
+    transform: rotateX(90deg);
+    transition: 0.32s cubic-bezier(0.6, 0, 0.7, 0.2);
+}
+
+.rotating-text p .word .letter.in {
+    transition: 0.38s ease;
+}
+
+.rotating-text p .word .letter.behind {
+    transform: rotateX(-90deg);
+}
+
+.w-1 {
+    color: #e74c3c;
+}
+
+.w-2 {
+    color: #8e44ad;
+}
+
+.w-3 {
+    color: #3498db;
+}
+
+.w-4 {
+    color: #2ecc71;
+}
+
+.w-5 {
+    color: #f1c40f;
+}
+
+.view-data-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.add-data-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #222;
+    color: white;
+    min-height: 100vh;
+}
+
+.add-data-form {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 1rem;
+    max-width: 40rem;
+    margin: 20px auto;
+}
+
+@media(min-width: 768px) {
+    .add-data-form {
+        grid-template-columns: 1fr 3fr;
+        grid-template-rows: auto auto;
+        max-width: 70rem;
+    }
+
+    .add-data-form label {
+        text-align: end;
+    }
+}
+
+.edit-data-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #222;
+    color: white;
+    min-height: 100vh;
+}
+
+header h1 {
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.edit-data-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.edit-data-form .form-group {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+}
+
+.edit-data-form label {
+    margin-bottom: 0.5rem;
 }

@@ -18,19 +18,35 @@ if (!$id) {
     exit;
 }
 
+$stmt = $pdo->query("DESCRIBE $selected_table");
+$columns_info = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$auto_increment_column = null;
+if ($columns_info) {
+    foreach ($columns_info as $column_info) {
+        if ($column_info['Extra'] === 'auto_increment') {
+            $auto_increment_column = $column_info['Field'];
+            break;
+        }
+    }
+    if (!$auto_increment_column) {
+        $auto_increment_column = $columns_info[0]['Field'];
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $columns = array_keys($_POST);
     $values = array_values($_POST);
     $set_clause = implode(", ", array_map(fn($col) => "$col = ?", $columns));
 
-    $stmt = $pdo->prepare("UPDATE $selected_table SET $set_clause WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE $selected_table SET $set_clause WHERE $auto_increment_column = ?");
     $stmt->execute([...$values, $id]);
 
     header('Location: view_data.php?message=Registro actualizado');
     exit;
 }
 
-$stmt = $pdo->prepare("SELECT * FROM $selected_table WHERE id = ?");
+$stmt = $pdo->prepare("SELECT * FROM $selected_table WHERE $auto_increment_column = ?");
 $stmt->execute([$id]);
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$row) {
@@ -48,25 +64,26 @@ if (!$row) {
     <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
-<header>
-    <h1>Editar Registro en la Tabla: <?php echo htmlspecialchars($selected_table); ?></h1>
-</header>
-<main>
-    <form method="post" action="edit_data.php?id=<?php echo $id; ?>">
-        <?php foreach ($row as $column => $value): ?>
+<div class="edit-data-container">
+    <header>
+        <h1>Editar Registro en la Tabla: <?php echo htmlspecialchars($selected_table); ?></h1>
+    </header>
+    <main>
+        <form class="edit-data-form" method="post" action="edit_data.php?id=<?php echo $id; ?>">
+            <?php foreach ($row as $column => $value): ?>
+                <div class="form-group">
+                    <label for="<?php echo $column; ?>"><?php echo htmlspecialchars($column); ?>:</label>
+                    <input type="text" id="<?php echo $column; ?>" name="<?php echo $column; ?>" value="<?php echo htmlspecialchars($value); ?>">
+                </div>
+            <?php endforeach; ?>
             <div class="form-group">
-                <label for="<?php echo $column; ?>"><?php echo htmlspecialchars($column); ?>:</label>
-                <input type="text" id="<?php echo $column; ?>" name="<?php echo $column; ?>" value="<?php echo htmlspecialchars($value); ?>">
+                <input class="button" type="submit" value="Actualizar">
             </div>
-        <?php endforeach; ?>
-        <div class="form-group">
-            <input type="submit" value="Actualizar">
+        </form>
+        <div class="links">
+            <a href="view_data.php">Volver</a>
         </div>
-    </form>
-    <a href="view_data.php">Volver</a>
-</main>
-<footer>
-    <p>&copy; <?php echo date('Y'); ?> Tu Compañía</p>
-</footer>
+    </main>
+</div>
 </body>
 </html>

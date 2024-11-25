@@ -26,16 +26,20 @@ $tables = $pdo->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);
     <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
-<h1>Seleccionar Tabla en la Base de Datos: <?php echo htmlspecialchars($selected_db); ?></h1>
-<form method="post" action="select_db_table.php">
-    <label for="table">Tabla:</label>
-    <select id="table" name="table">
-        <?php foreach ($tables as $table): ?>
-            <option value="<?php echo htmlspecialchars($table); ?>"><?php echo htmlspecialchars($table); ?></option>
-        <?php endforeach; ?>
-    </select>
-    <input type="submit" value="Seleccionar">
-</form>
-<a href="logout.php">Cambiar Base de Datos</a>
+<div class="divCenter space">
+    <h1>Seleccionar Tabla en la Base de Datos: <?php echo htmlspecialchars($selected_db); ?></h1>
+    <form class="formCenter" method="post" action="select_db_table.php">
+        <div class="grid-container">
+            <?php foreach ($tables as $table): ?>
+                <button type="submit" name="table" value="<?php echo htmlspecialchars($table); ?>" class="grid-item">
+                    <?php echo htmlspecialchars($table); ?>
+                </button>
+            <?php endforeach; ?>
+        </div>
+    </form>
+    <div class="abajo links">
+        <a href="logout.php">Cambiar Base de Datos</a>
+    </div>
+</div>
 </body>
 </html>
