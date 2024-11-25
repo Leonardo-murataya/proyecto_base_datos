@@ -55,20 +55,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
-<h1>Agregar Datos</h1>
-<form method="post" action="add_data.php">
-    <?php foreach ($columns as $column): ?>
-        <?php if ($column === $auto_increment_column): ?>
-            <label for="<?php echo htmlspecialchars($column); ?>"><?php echo htmlspecialchars($column); ?> (Opcional):</label>
-            <input type="text" id="<?php echo htmlspecialchars($column); ?>" name="<?php echo htmlspecialchars($column); ?>">
-            <small>Dejar en blanco para auto-incrementar</small>
-        <?php else: ?>
-            <label for="<?php echo htmlspecialchars($column); ?>"><?php echo htmlspecialchars($column); ?>:</label>
-            <input type="text" id="<?php echo htmlspecialchars($column); ?>" name="<?php echo htmlspecialchars($column); ?>" required>
-        <?php endif; ?>
-    <?php endforeach; ?>
-    <input type="submit" value="Guardar">
-</form>
-<a href="view_data.php">Volver</a>
+<div class="add-data-container">
+    <h1>Agregar Datos</h1>
+    <form class="add-data-form" method="post" action="add_data.php">
+        <?php foreach ($columns as $column): ?>
+            <?php if ($column === $auto_increment_column): ?>
+                <label for="<?php echo htmlspecialchars($column); ?>"><?php echo htmlspecialchars($column); ?> (Opcional):</label>
+                <input type="text" id="<?php echo htmlspecialchars($column); ?>" name="<?php echo htmlspecialchars($column); ?>">
+                <small>Dejar en blanco para auto-incrementar</small>
+            <?php else: ?>
+                <label for="<?php echo htmlspecialchars($column); ?>"><?php echo htmlspecialchars($column); ?>:</label>
+                <input type="text" id="<?php echo htmlspecialchars($column); ?>" name="<?php echo htmlspecialchars($column); ?>" required>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        <input class="button" type="submit" value="Guardar">
+    </form>
+    <div class="links">
+        <a href="view_data.php">Volver</a>
+    </div>
+</div>
 </body>
 </html>
